@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PawStyle | 专属宠物时尚服饰</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 基础重置与字体 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* 顶部栏 (参考SKIMS的简约风格) */
+        .top-bar {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 10px 5%;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar a { color: #ddd; margin-left: 20px; }
+        .top-bar a:hover { color: #fff; }
+
+        /* 导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2a6e8b;
+        }
+        .nav-links a {
+            margin-left: 30px;
+            font-weight: 500;
+            color: #444;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #2a6e8b;
+            border-bottom: 2px solid #2a6e8b;
+            padding-bottom: 5px;
+        }
+
+        /* 英雄横幅区 (体现新品系列) */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+        }
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        }
+        .hero p {
+            font-size: 1.2em;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #e8b4b8; /* 柔和粉色，符合宠物主题 */
+            color: #333;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            background-color: #d8a4a8;
+            transform: translateY(-3px);
+        }
+
+        /* 限量系列/特色产品区 (参考SKIMS的系列展示) */
+        .limited-edition, .collection, .newsletter {
+            padding: 80px 5%;
+            text-align: center;
+        }
+        .section-title {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #222;
+        }
+        .section-subtitle {
+            color: #666;
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .product-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+        .product-info {
+            padding: 20px;
+        }
+        .product-info h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .product-info p {
+            color: #777;
+            font-size: 0.95em;
+        }
+
+        /* 邮件订阅区 (对应SKIMS的邮件订阅) */
+        .newsletter {
+            background-color: #f0f0f0;
+        }
+        .email-input {
+            padding: 15px;
+            width: 300px;
+            max-width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 30px 0 0 30px;
+            font-size: 1em;
+        }
+        .email-submit {
+            padding: 15px 30px;
+            background-color: #2a6e8b;
+            color: white;
+            border: none;
+            border-radius: 0 30px 30px 0;
+            font-size: 1em;
+            cursor: pointer;
+            margin-left: -5px;
+        }
+        .email-submit:hover { background-color: #1f5a70; }
+        .terms {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 底部短信订阅与信息 (对应SKIMS的短信订阅) */
+        .sms-subscribe {
+            background-color: #1a1a1a;
+            color: #ddd;
+            padding: 40px 5%;
+            text-align: center;
+        }
+        .sms-btn {
+            display: inline-block;
+            background-color: #e8b4b8;
+            color: #333;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .footer {
+            background-color: #111;
+            color: #aaa;
+            text-align: center;
+            padding: 30px 5%;
+            font-size: 0.9em;
+        }
+        .footer-links a {
+            color: #ccc;
+            margin: 0 15px;
+        }
+        .footer-links a:hover { color: #fff; }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links { display: none; } /* 实际应用中应替换为汉堡菜单 */
+            .hero h1 { font-size: 2.5em; }
+            .products { grid-template-columns: 1fr; }
+            .email-input, .email-submit { width: 100%; border-radius: 30px; margin: 5px 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部通知栏 -->
+    <div class="top-bar">
+        <span>🔥 全新冬季系列上市，即刻探索 -></span>
+        <div>
+            <a href="#">简体中文</a> |
+            <a href="#"><i class="fas fa-shipping-fast"></i> 全球配送</a>
+        </div>
+    </div>
+
+    <!-- 主导航 -->
+    <header class="navbar">
+        <a href="#" class="logo">PawStyle</a>
+        <nav class="nav-links">
+            <a href="#" class="active">首页</a>
+            <a href="#">新品系列</a>
+            <a href="#">服饰</a>
+            <a href="#">配饰</a>
+            <a href="#">宠物窝垫</a>
+            <a href="#">关于我们</a>
+            <a href="#"><i class="fas fa-shopping-bag"></i> (0)</a>
+        </nav>
+    </header>
+
+    <!-- 主横幅/新品推广 -->
+    <section class="hero">
+        <h1>冬日暖绒系列</h1>
+        <p>专为爱宠打造的限量款针织服饰与舒适基底层，采用创新面料与柔和冬日色调，重新定义宠物舒适与风格。</p>
+        <a href="#limited" class="cta-button">立即探索</a>
+    </section>
+
+    <!-- 限量系列 -->
+    <section class="limited-edition" id="limited">
+        <h2 class="section-title">限量冬季系列</h2>
+        <p class="section-subtitle">匠心工艺，精准剪裁，以丰富的冬日色调呈现。用温暖舒适的针织衫、超显身形的基础层等，点燃您爱宠的整个冬天。</p>
+        <div class="products">
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="宠物针织毛衣">
+                <div class="product-info">
+                    <h3>暖绒针织衫</h3>
+                    <p>柔软羊绒混纺，经典北欧花纹，为狗狗和猫咪提供全天候温暖。</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1559253664-ca249d4608c6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="宠物功能马甲">
+                <div class="product-info">
+                    <h3>探险家功能马甲</h3>
+                    <p>轻量防水面料，多口袋设计，兼具时尚与户外功能性。</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1579168765467-3b235f938439?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="宠物节日服饰">
+                <div class="product-info">
+                    <h3>节日派对领结</h3>
+                    <p>奢华丝绒材质，可调节设计，让您的爱宠成为节日焦点。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 常规系列展示 -->
+    <section class="collection">
+        <h2 class="section-title">重新定义宠物运动风格</h2>
+        <p class="section-subtitle">全新创新廓形、配饰与季节色彩，满足爱宠从居家到户外的一切场景。</p>
+        <div class="products">
+            <!-- 产品卡片结构同上，图片和文字可替换 -->
+        </div>
+    </section>
+
+    <!-- 邮件订阅 -->
+    <section class="newsletter">
+        <h2 class="section-title">成为首个发现者</h2>
+        <p class="section-subtitle">抢先了解新品上市、特别优惠与PawStyle的一切动态。</p>
+        <form id="subscribe-form">
+            <input type="email" class="email-input" placeholder="请输入您的电子邮箱" required>
+            <button type="submit" class="email-submit">订阅</button>
+        </form>
+        <p class="terms">提交您的邮箱即表示同意接收PawStyle的自动营销信息。查看<a href="#">条款与隐私政策</a>。</p>
+    </section>
+
+    <!-- 短信订阅 -->
+    <section class="sms-subscribe">
+        <h3>发送短信 PAW 至 68808，永不错过任何新品！</h3>
+        <a href="sms:68808?body=PAW" class="sms-btn">发送短信订阅</a>
+        <p class="terms">通过发送短信，您同意接收PawStyle的自动促销和个性化营销短信（如购物车提醒）。同意并非购买条件。回复HELP获取帮助，STOP取消。消息频率不定。可能产生短信与数据费用。查看<a href="#">条款与隐私政策</a>。</p>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">联系我们</a> | <a href="#">配送政策</a> | <a href="#">退货政策</a> | <a href="#">隐私政策</a> | <a href="#">服务条款</a>
+        </div>
+        <p>&copy; 2026 PawStyle. 保留所有权利。</p>
+    </footer>
+
+    <script>
+        // 简单的表单提交拦截与提示
+        document.getElementById('subscribe-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.email-input').value;
+            alert(`感谢订阅！优惠码已发送至：${email}`);
+            this.reset();
+        });
+
+        // 控制台欢迎信息
+        console.log('PawStyle 独立站已加载。');
+    </script>
+</body>
+</html>
