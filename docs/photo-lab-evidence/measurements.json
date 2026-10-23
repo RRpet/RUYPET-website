@@ -1,0 +1,29 @@
+{
+  "metrics": {
+    "backgroundCoverage": 0.6671428571428571,
+    "confidence": 1,
+    "backgroundStdBefore": 8.664983493083795,
+    "backgroundStdAfter": 0.9108976342982572,
+    "subjectDelta": 0.00154853241359893,
+    "clippedPercent": 0
+  },
+  "params": {
+    "exposure": 0,
+    "brightness": 0,
+    "temperature": 0,
+    "tint": 0,
+    "highlights": 0,
+    "shadows": 0,
+    "contrast": 0,
+    "saturation": 0,
+    "uniformity": 90,
+    "backgroundNeutral": 90,
+    "background": "#f7f7f5"
+  },
+  "changedSubject": 0,
+  "changedSamples": [],
+  "untouched": true,
+  "exposed": true,
+  "protectedUnchanged": true,
+  "note": "Synthetic material/edge test, not a real dog photograph"
+}

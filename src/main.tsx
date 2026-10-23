@@ -23,6 +23,7 @@ import {
   type Asset,
 } from "./model";
 import "./style.css";
+import PhotoLab from "./photo-lab/PhotoLab";
 
 function useImage(data?: string) {
   const [img, setImg] = useState<HTMLImageElement>();
@@ -77,14 +78,18 @@ function download(blob: Blob, name: string) {
 }
 const safeName = (s: string) =>
   s.replace(/[\\/:*?"<>|]/g, "_").slice(0, 80) || "RUYPET";
-function App() {
-  const [project, setProject] = useState<Project>(initial);
+type EditorProps = {
+  project: Project;
+  setProject: React.Dispatch<React.SetStateAction<Project>>;
+  dirty: boolean;
+  setDirty: React.Dispatch<React.SetStateAction<boolean>>;
+};
+function App({ project, setProject, dirty, setDirty }: EditorProps) {
   const [active, setActive] = useState(project.pages[0].id);
   const [selected, setSelected] = useState<string>();
   const [zoom, setZoom] = useState(0.65);
   const [tab, setTab] = useState("图层属性");
   const [status, setStatus] = useState("就绪 · 所有图片仅在本机处理");
-  const [dirty, setDirty] = useState(false);
   const [busy, setBusy] = useState(false);
   const [format, setFormat] = useState<"png" | "jpeg">("png");
   const stage = useRef<Konva.Stage>(null);
@@ -97,6 +102,10 @@ function App() {
   projectRef.current = project;
   const history = useRef<Project[]>([]);
   const future = useRef<Project[]>([]);
+  useEffect(() => {
+    history.current = [];
+    future.current = [];
+  }, [project.lab, project.assets.filter((a) => a.sourceId).length]);
   function update(fn: (p: Project) => Project) {
     const previous = projectRef.current;
     history.current.push(previous);
@@ -1303,8 +1312,56 @@ function App() {
     </div>
   );
 }
+function Workspace() {
+  const [project, setProject] = useState<Project>(initial);
+  const [dirty, setDirty] = useState(false);
+  const [workspace, setWorkspace] = useState("builder");
+  const changeProject: React.Dispatch<React.SetStateAction<Project>> = (
+    action,
+  ) => {
+    setProject(action);
+    setDirty(true);
+  };
+  return (
+    <>
+      <nav className="workspace-switch" aria-label="工作区">
+        <strong>RUYPET STUDIO</strong>
+        <button
+          className={workspace === "lab" ? "active" : ""}
+          onClick={() => setWorkspace("lab")}
+        >
+          PHOTO LAB · 批量修图
+        </button>
+        <button
+          className={workspace === "builder" ? "active" : ""}
+          onClick={() => setWorkspace("builder")}
+        >
+          DETAIL BUILDER · 商详编辑
+        </button>
+        <span>共用素材 / 项目文件 · 原图不改写</span>
+      </nav>
+      <div style={{ display: workspace === "builder" ? "block" : "none" }}>
+        <App
+          project={project}
+          setProject={changeProject}
+          dirty={dirty}
+          setDirty={setDirty}
+        />
+      </div>
+      {workspace === "lab" && (
+        <PhotoLab
+          project={project}
+          setProject={changeProject}
+          dirty={dirty}
+          setDirty={setDirty}
+          openBuilder={() => setWorkspace("builder")}
+        />
+      )}
+    </>
+  );
+}
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <Workspace />
   </React.StrictMode>,
 );

@@ -1,5 +1,8 @@
+import { validateLab, type LabState } from "./photo-lab/types";
 export const WIDTH = 790;
 export type Asset = {
+  batchId?: string;
+  sourceId?: string;
   id: string;
   name: string;
   data: string;
@@ -43,6 +46,7 @@ export type Brand = {
 };
 export type Project = {
   version: 1;
+  lab?: LabState;
   name: string;
   brand: Brand;
   assets: Asset[];
@@ -219,5 +223,6 @@ export function parseProject(value: unknown): Project {
         throw Error("图层数据无效");
     }
   }
+  if (p.lab) p.lab = validateLab(p.lab);
   return p;
 }
