@@ -1,0 +1,27 @@
+{
+  "name": "ruypet-detail-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "konva": "^10.0.0",
+    "react-konva": "^19.2.0",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vite": "^7.3.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@playwright/test": "^1.56.0"
+  }
+}
